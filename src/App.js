@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react'
+import Counter from './Counter'
 
 function App() {
+  const [counts, setCounts] = useState([0, 0, 0]);
+  const totalCount = counts.reduce((sum, b) => sum + b, 0)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="counters">
+        {counts.map((value, idx) => {
+          return (
+            <Counter
+              key={idx}
+              idx={idx}
+              counts={counts}
+              onClick={newCounts => setCounts(newCounts)}
+            />
+          )
+        })}
+      </div>
+
+      <div>
+        <p>Total: {totalCount}</p>
+        <button onClick={() => {
+          const countsCopy = [...counts];
+          countsCopy.push(0)
+          setCounts(countsCopy);
+        }
+        }>Add Counter</button>
+      </div>
     </div>
   );
 }
